@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
+        Schema::create('reset_passwords', function (Blueprint $table) {
             $table->string('email')->primary();
-            $table->string('token');
+            $table->integer('otp');
+            $table->foreignId('user_id')->constrained();
             $table->timestamp('created_at')->nullable();
         });
     }
