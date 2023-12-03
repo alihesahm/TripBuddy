@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CustomExceptions\LogicException;
 use App\Http\Requests\CheckOtpRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendOtpRequest;
 use App\Mail\ResetPasswordMail;
 use App\Models\PasswordReset;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 
 class ResetPasswordController extends Controller
 {
-    function sendOtp(SendOtpRequest $request)
+    public function sendOtp(SendOtpRequest $request)
     {
         $user = User::query()->where('email' ,$request->email)->first();
 
@@ -33,15 +34,33 @@ class ResetPasswordController extends Controller
 
     public function checkOtp(CheckOtpRequest $request)
     {
-        $passwordRestObject = ResetPassword::query()->where([['email', $request->email], ['otp', $request->code]])->first();
+        $resetPasswordData = ResetPassword::query()->where([['email', $request->email], ['otp', $request->code]])->first();
 
-        if (! $passwordRestObject) {
+        if (! $resetPasswordData) {
             return  sendFailedResponse(__('exceptions.wrong_otp'));
         }
-        if (Carbon::parse($passwordRestObject->created_at)->addHours(24)->isPast()) {
+        if (Carbon::parse($resetPasswordData->created_at)->addHours(24)->isPast()) {
             return  sendFailedResponse(__('exceptions.expired_otp'));
         }
 
-        return $passwordRestObject;
+
+        return sendSuccessResponse(data: ['email' => $resetPasswordData->email,'code'=>$resetPasswordData->otp]);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $resetPasswordData = ResetPassword::query()->where([['email', $request->email], ['otp', $request->code]])->first();
+
+        if (! $resetPasswordData) {
+            return  sendFailedResponse(__('exceptions.wrong_otp'));
+        }
+        if (Carbon::parse($resetPasswordData->created_at)->addHours(24)->isPast()) {
+            return  sendFailedResponse(__('exceptions.expired_otp'));
+        }
+
+        $user = $resetPasswordData->user;
+        $user->update(['password'=>$request->password]);
+        $resetPasswordData->delete();
+        return sendSuccessResponse('password reset successfully');
     }
 }
