@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Middleware\AdminRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,13 @@ Route::post('register',[AuthController::class,'register']);
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::post('logout',[AuthController::class,'logout']);
+
+    Route::controller(PlaceController::class)->prefix('place')->group(function (){
+        Route::get('{category?}','index');
+        Route::post('','store');
+        Route::patch('{place}/edit','update');
+        Route::post('approve/{place}','approve')->middleware(AdminRole::class);
+    });
 });
 
 Route::controller(ResetPasswordController::class)->group(function (){
@@ -27,3 +36,6 @@ Route::controller(ResetPasswordController::class)->group(function (){
    Route::post('check-otp','checkOtp');
    Route::post('reset-password','resetPassword');
 });
+
+
+
