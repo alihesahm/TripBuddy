@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Middleware\AdminRole;
@@ -24,10 +25,19 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('logout',[AuthController::class,'logout']);
 
     Route::controller(PlaceController::class)->prefix('place')->group(function (){
-        Route::get('{category?}','index');
+        Route::get('','index');
+        Route::get('{place}/get','show');
+        Route::get('admin','adminIndex')->middleware(AdminRole::class);
         Route::post('','store');
         Route::patch('{place}/edit','update');
         Route::post('approve/{place}','approve')->middleware(AdminRole::class);
+
+    });
+
+    Route::controller(FavoriteController::class)->prefix('favorite')->group(function (){
+        Route::get('','index');
+        Route::post('{place}/add','store');
+        Route::delete('{place}/delete','delete');
     });
 });
 

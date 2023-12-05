@@ -41,9 +41,21 @@ class PlaceController extends Controller
 
     public function approve(Place $place)
     {
-
         $place->update(['is_approved'=>!$place->is_approved]);
         return sendSuccessResponse();
+    }
+
+    public function adminIndex(Request $request)
+    {
+        $data = $request->validate([
+            'is_approved'=>['nullable','boolean']
+        ]);
+        $places = Place::query()
+            ->when(!is_null($request->is_approved),function ($query) use($request){
+                return $query->where('is_approved',$request->is_approved);
+            })->get();
+
+        return sendSuccessResponse(data:PlaceResource::collection($places));
     }
 
 }
