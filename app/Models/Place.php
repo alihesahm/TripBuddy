@@ -15,13 +15,14 @@ class Place extends Model implements HasMedia
     use HasFactory,InteractsWithMedia;
 
     protected $fillable = [
-          'name',
-          'description',
-          'phone',
-          'location',
-          'category_id',
-          'type',
-          'rate',
+        'name',
+        'description',
+        'phone',
+        'location',
+        'category_id',
+        'type',
+        'rate',
+        'is_approved',
     ];
 
     public function scopeApproved(Builder $query): Builder
@@ -29,14 +30,7 @@ class Place extends Model implements HasMedia
         return $query->where('is_approved',true);
     }
 
-    public function scopeByThisUser(Builder $query,User $user): Builder
-    {
-        return $query->withExists(['user as by_user' => function (Builder $query) use ($user) {
-            $query->where('.user_id', $user->id);
-        }]);
-    }
-
-    public function scopeFavorites(Builder $query,User $user): Builder
+    public function scopeIsFavorites(Builder $query,User $user): Builder
     {
         return $query->withExists(['favorites as is_favorites' => function (Builder $query) use ($user) {
             $query->where('user_id', $user->id);

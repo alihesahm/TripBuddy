@@ -25,7 +25,8 @@ class PlaceResource extends JsonResource
             'phone' => $this->phone,
             'location' => $this->location,
             'rate' => $this->rate,
-            'images' =>$images
+            'images' =>$images,
+            'is_favorites' => $this->is_favorites,
         ];
     }
 }

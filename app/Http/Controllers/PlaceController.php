@@ -5,20 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePlaceRequest;
 use App\Http\Requests\UpdatePlaceRequest;
 use App\Http\Resources\PlaceResource;
-use App\Models\Category;
 use App\Models\Place;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PlaceController extends Controller
 {
-    public function index(?Category $category=null)
+    public function index()
     {
         $user = currentUser();
-        $places = is_null($category)
-            ? Place::approved()->byThisUser($user)->with('media')->get()
-            : $category->places()->approved()->byThisUser($user)->with('media')->get();
-
+        $places = Place::approved()->with('media')->withExists(['userHowFavorite as is_favorites' => function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])->get();
         return sendSuccessResponse(data:PlaceResource::collection($places));
     }
 
@@ -56,6 +55,17 @@ class PlaceController extends Controller
             })->get();
 
         return sendSuccessResponse(data:PlaceResource::collection($places));
+    }
+
+    public function show(Place $place)
+    {
+        if (!$place->is_approved) {
+            throw new NotFoundHttpException();
+        }
+        $place->loadExists(['userHowFavorite as is_favorites' => function ($query) {
+            $query->where('user_id',currentUser()->id);
+        }]);
+        return sendSuccessResponse(data:PlaceResource::make($place));
     }
 
 }

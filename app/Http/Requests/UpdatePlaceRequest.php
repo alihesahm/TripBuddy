@@ -26,10 +26,13 @@ class UpdatePlaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['string'],
-            'description'=>['string'],
-            'phone'=>['string'],
-            'location'=>['string'],
+            'name' => ['string'],
+            'type' => ['string'],
+            'description' => ['string'],
+            'phone' => ['string'],
+            'location' => ['string'],
+            'rate' => ['integer'],
+            'category_id' => ['integer', 'exists:categories,id'],
         ];
     }
 }
