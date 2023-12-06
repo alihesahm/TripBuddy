@@ -37,10 +37,10 @@ class ResetPasswordController extends Controller
         $resetPasswordData = ResetPassword::query()->where([['email', $request->email], ['otp', $request->code]])->first();
 
         if (! $resetPasswordData) {
-            return  sendFailedResponse(__('exceptions.wrong_otp'));
+            return  sendFailedResponse(__('exceptions.wrong_otp'),status_code: 200);
         }
         if (Carbon::parse($resetPasswordData->created_at)->addHours(24)->isPast()) {
-            return  sendFailedResponse(__('exceptions.expired_otp'));
+            return  sendFailedResponse(__('exceptions.expired_otp'),status_code: 200);
         }
 
 
@@ -52,10 +52,10 @@ class ResetPasswordController extends Controller
         $resetPasswordData = ResetPassword::query()->where([['email', $request->email], ['otp', $request->code]])->first();
 
         if (! $resetPasswordData) {
-            return  sendFailedResponse(__('exceptions.wrong_otp'));
+            return  sendFailedResponse(__('exceptions.wrong_otp'),status_code: 200);
         }
         if (Carbon::parse($resetPasswordData->created_at)->addHours(24)->isPast()) {
-            return  sendFailedResponse(__('exceptions.expired_otp'));
+            return  sendFailedResponse(__('exceptions.expired_otp'),status_code: 200);
         }
 
         $user = $resetPasswordData->user;

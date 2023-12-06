@@ -22,7 +22,7 @@
             Best regards
         </p>
         <p style="color: white; text-align: left;">
-            iqsteps Team
+            TripBuddy Team
         </p>
 
     </div>

@@ -68,10 +68,10 @@ class PlaceController extends Controller
         return sendSuccessResponse(data:PlaceResource::make($place));
     }
 
-    public function deleteImage(Place $place,int $image_id)
+    public function deleteImage(Place $place, $image_id)
     {
         $image = $place->getMedia()->find($image_id);
-        $image->delete();
+        $image?->delete();
         return sendSuccessResponse('image deleted successfully');
     }
 
