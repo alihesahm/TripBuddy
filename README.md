@@ -9,7 +9,7 @@ cp env.example .env
 ```
 for window
 ```shell
-copy env.example .env
+copy .env.example .env
 ```
 2. install the require
 ```shell

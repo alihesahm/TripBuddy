@@ -16,7 +16,7 @@ trait HasFailedValidationRequest
     protected function failedValidation(Validator $validator): void
     {
         throw new HttpResponseException(
-            sendFailedResponse($validator->errors()->first(), $validator->errors(), 422)
+            sendFailedResponse($validator->errors()->first(), $validator->errors(), 200)
         );
     }
 }

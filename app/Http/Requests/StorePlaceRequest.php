@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\Traits\General\HasFailedValidationRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePlaceRequest extends FormRequest
 {
+    use HasFailedValidationRequest;
     /**
      * Determine if the user is authorized to make this request.
      */
