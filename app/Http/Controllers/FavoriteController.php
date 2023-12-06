@@ -29,7 +29,7 @@ class FavoriteController extends Controller
             throw new NotFoundHttpException();
         }
         currentUser()->favorite()->sync([$place->id], false);
-        return sendSuccessResponse();
+        return sendSuccessResponse('add successfully');
     }
 
     public function delete(Place $place)
@@ -38,6 +38,6 @@ class FavoriteController extends Controller
             throw new NotFoundHttpException();
         }
         currentUser()->favorite()->detach($place->id);
-        return sendSuccessResponse();
+        return sendSuccessResponse('deleted successfully');
     }
 }

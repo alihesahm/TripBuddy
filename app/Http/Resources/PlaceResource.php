@@ -16,9 +16,10 @@ class PlaceResource extends JsonResource
     {
         $images=[];
         foreach ($this->media as $media){
-            $images[] = $media->getUrl();
+            $images[] = ['id'=>$media->id,'url'=>$media->getUrl()];
         }
         return [
+            'id'=>$this->id,
             'name'=>$this->name,
             'description' =>$this->description,
             'type' => $this->type,

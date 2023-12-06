@@ -31,6 +31,10 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::post('','store');
         Route::patch('{place}/edit','update');
         Route::post('approve/{place}','approve')->middleware(AdminRole::class);
+        Route::controller(\App\Http\Controllers\CategoryController::class)->group(function (){
+            Route::get('category/{category}','index');
+
+        });
 
     });
 

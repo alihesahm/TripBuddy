@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\PlaceResource;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -11,35 +13,14 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Category $category)
     {
-        return sendSuccessResponse(data: CategoryResource::collection(Category::all()));
+        $user = currentUser();
+        $places = $category->places()->approved()->with('media')->withExists(['userHowFavorite as is_favorites' => function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])->get();
+        return sendSuccessResponse(data:PlaceResource::collection($places));
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $data = $request->validate([]);
-        Category::query()->create($data);
-        return sendSuccessResponse();
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

@@ -40,7 +40,7 @@ class PlaceController extends Controller
 
     public function approve(Place $place)
     {
-        $place->update(['is_approved'=>!$place->is_approved]);
+        $place->update(['is_approved'=>true]);
         return sendSuccessResponse();
     }
 
@@ -66,6 +66,22 @@ class PlaceController extends Controller
             $query->where('user_id',currentUser()->id);
         }]);
         return sendSuccessResponse(data:PlaceResource::make($place));
+    }
+
+    public function deleteImage(Place $place,int $image_id)
+    {
+        $image = $place->getMedia()->find($image_id);
+        $image->delete();
+        return sendSuccessResponse('image deleted successfully');
+    }
+
+    public function addImage(Place $place)
+    {
+        $data = request()->validate([
+            'image'=>['required','image']
+        ]);
+        $place->addMedia(request()->image)->toMediaCollection();
+        return sendSuccessResponse('image added successfully');
     }
 
 }

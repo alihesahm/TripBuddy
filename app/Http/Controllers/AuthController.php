@@ -33,7 +33,7 @@ class AuthController extends Controller
             ->first();
 
         if (!$user || !password_verify($request->password,$user->password)){
-            return sendFailedResponse(__("auth.failed"));
+            return sendFailedResponse(__("auth.failed"),status_code:200);
         }
         $token = $user->createToken('User Token')->plainTextToken;
 
@@ -49,6 +49,6 @@ class AuthController extends Controller
     public function logout()
     {
         currentUser()->currentAccessToken()->delete();
-        return sendSuccessResponse();
+        return sendSuccessResponse('you logout');
     }
 }
