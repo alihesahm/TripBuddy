@@ -22,6 +22,9 @@ class FavoriteController extends Controller
                 $query->where('user_id', $user->id);
             }])
             ->get();
+        if ($places->isEmpty()){
+            return sendFailedResponse('your favorite is empty',status_code: 200);
+        }
         return sendSuccessResponse(data:PlaceResource::collection($places));
     }
 
