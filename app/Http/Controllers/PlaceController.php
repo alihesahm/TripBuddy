@@ -53,6 +53,9 @@ class PlaceController extends Controller
             ->when(!is_null($request->is_approved),function ($query) use($request){
                 return $query->where('is_approved',$request->is_approved);
             })->get();
+        if ($places->isEmpty()){
+            return sendFailedResponse('no places found',status_code: 200);
+        }
 
         return sendSuccessResponse(data:PlaceResource::collection($places));
     }
