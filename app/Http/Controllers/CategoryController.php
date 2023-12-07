@@ -19,6 +19,9 @@ class CategoryController extends Controller
         $places = $category->places()->approved()->with('media')->withExists(['userHowFavorite as is_favorites' => function (Builder $query) use ($user) {
             $query->where('user_id', $user->id);
         }])->get();
+        if ($places->isEmpty()){
+            return sendFailedResponse('there is no places in this category',status_code: 200);
+        }
         return sendSuccessResponse(data:PlaceResource::collection($places));
 
     }
