@@ -27,7 +27,7 @@ class AppointmentResource extends JsonResource
             'location' => $this->place->location,
             'rate' => $this->place->rate,
             'images' =>$images,
-            'category'=>$this->place->category->name,
+            'category'=>$this->place->category->id,
             'date' =>$this->date,
         ];
     }
