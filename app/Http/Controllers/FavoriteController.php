@@ -18,6 +18,9 @@ class FavoriteController extends Controller
             ->favorite()
             ->with('media')
             ->approved()
+            ->withExists(['userHowFavorite as is_favorites' => function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            }])
             ->get();
         return sendSuccessResponse(data:PlaceResource::collection($places));
     }
