@@ -87,4 +87,13 @@ class PlaceController extends Controller
         return sendSuccessResponse('image added successfully');
     }
 
+    public function adminShow(Place $place)
+    {
+
+        $place->loadExists(['userHowFavorite as is_favorites' => function ($query) {
+            $query->where('user_id',currentUser()->id);
+        }]);
+        return sendSuccessResponse(data:PlaceResource::make($place));
+    }
+
 }

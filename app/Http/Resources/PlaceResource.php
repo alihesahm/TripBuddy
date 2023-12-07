@@ -29,6 +29,7 @@ class PlaceResource extends JsonResource
             'category'=>$this->category->id,
             'images' =>$images,
             'is_favorites' => $this->is_favorites,
+            'is_approved'=>$this->is_approved,
         ];
     }
 }

@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::get('','index');
         Route::post('','store');
         Route::get('admin','adminIndex')->middleware(AdminRole::class);
+        Route::get('admin/{place}/get','adminShow')->middleware(AdminRole::class);
         Route::get('{place}/get','show');
         Route::patch('{place}/edit','update');
         Route::post('{place}/image','addImage')->middleware(AdminRole::class);
