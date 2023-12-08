@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('location');
             $table->string('type');
-            $table->string('rate');
+            $table->float('rate');
             $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });

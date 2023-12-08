@@ -33,7 +33,7 @@ class UpdatePlaceRequest extends FormRequest
             'description' => ['string'],
             'phone' => ['string'],
             'location' => ['string'],
-            'rate' => ['integer'],
+            'rate' => ['numeric'],
             'category_id' => ['integer', 'exists:categories,id'],
         ];
     }

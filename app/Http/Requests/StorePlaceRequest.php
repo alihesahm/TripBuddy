@@ -29,7 +29,7 @@ class StorePlaceRequest extends FormRequest
             'description' => ['required', 'string'],
             'phone' => ['required', 'string'],
             'location' => ['required', 'string'],
-            'rate' => ['required', 'integer'],
+            'rate' => ['required', 'numeric'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'images' => ['required', 'array', 'min:1'],
             'images.*' => ['image']
