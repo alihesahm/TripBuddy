@@ -96,4 +96,14 @@ class PlaceController extends Controller
         return sendSuccessResponse(data:PlaceResource::make($place));
     }
 
+    public function delete(Place $place)
+    {
+        try {
+            $place->delete();
+        }catch (\Throwable $e){
+            return sendFailedResponse("can't delete the place");
+        }
+        return sendSuccessResponse();
+    }
+
 }
