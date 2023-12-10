@@ -106,7 +106,7 @@ class PlaceController extends Controller
         return sendSuccessResponse();
     }
 
-    public function pubuler()
+    public function popular()
     {
         $user = currentUser();
         $places = Place::approved()->with('media')->withExists(['userHowFavorite as is_favorites' => function (Builder $query) use ($user) {

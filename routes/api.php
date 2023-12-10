@@ -60,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::get('',[AuthController::class,'getProfile']);
         Route::post('',[AuthController::class,'updateProfile']);
     });
-    Route::get('bupuler',[PlaceController::class,'pubuler']);
+    Route::get('popular',[PlaceController::class,'popular']);
 });
 
 Route::controller(ResetPasswordController::class)->group(function (){
