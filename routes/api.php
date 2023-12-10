@@ -56,6 +56,11 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::delete('{appointment}','delete');
 
     });
+    Route::prefix('profile')->group(function (){
+        Route::get('',[AuthController::class,'getProfile']);
+        Route::post('',[AuthController::class,'updateProfile']);
+    });
+    Route::get('bupuler',[PlaceController::class,'pubuler']);
 });
 
 Route::controller(ResetPasswordController::class)->group(function (){

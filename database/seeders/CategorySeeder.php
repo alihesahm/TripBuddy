@@ -13,7 +13,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = ['Natural Landscape','Museums & Monuments','Shopping','Restaurants & cafes'];
+        $categories = ['Natural Landscape','Museums & Monuments','Shopping','Restaurants & cafes','Current Events'];
         foreach ($categories as $category) {
             Category::create(['name'=>$category]);
         }

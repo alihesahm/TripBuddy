@@ -106,4 +106,13 @@ class PlaceController extends Controller
         return sendSuccessResponse();
     }
 
+    public function pubuler()
+    {
+        $user = currentUser();
+        $places = Place::approved()->with('media')->withExists(['userHowFavorite as is_favorites' => function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])->orderBy('rate','desc')->take(3)->get();
+
+        return sendSuccessResponse(data:PlaceResource::collection($places));
+    }
 }
