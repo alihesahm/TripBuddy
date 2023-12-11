@@ -176,7 +176,7 @@ echo "APP_VERSION=${APP_VERSION}" >> .env
 echo "Run migrate"
 php artisan migrate:fresh --force --seed
 php artisan view:clear
-php artisan responsecache:clear
+{{--php artisan responsecache:clear--}}
 {{-- php artisan cache:app-v --}}
 php artisan optimize
 php artisan event:cache
@@ -200,7 +200,7 @@ rm -rf $(ls -t | tail -n +{{ $keep +1 }});
 sync && free -g -h -t
 echo 'Deployment completed successfully. the new {{$branch}} releases {{$release}} is live now :) '
 cd {{ $new_release_dir }}
-php artisan app:deploy-notifcation-command
+{{--php artisan app:deploy-notifcation-command--}}
 @endtask
 
 @task('run_composer')
