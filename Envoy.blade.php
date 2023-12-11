@@ -27,7 +27,7 @@ $server_dir=$branch;
 | The base paths where the deployment will happens.
 |
 */
-$app_dir = "/home/u313532741";
+$app_dir = "/home/u313532741/domains/orangered-magpie-961382.builder-preview1.com";
 $releases_dir = "$app_dir/$server_dir/releases";
 $release = date('YmdHis');
 $new_release_dir ="$releases_dir/$release";
